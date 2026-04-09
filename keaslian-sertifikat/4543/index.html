@@ -71,7 +71,7 @@
         const container = document.getElementById('image-container');
         const image = document.getElementById('previewImage');
 
-        let scale = 1;
+        let scale = 0.7;
         let isPinching = false;
         let initialPinchDistance = 0;
 
@@ -79,15 +79,18 @@
             image.style.transform = `scale(${scale})`;
         }
 
-        // ZOOM pakai scroll (PC)
+        applyTransform();
+
         container.addEventListener('wheel', (e) => {
             e.preventDefault();
             const scaleAmount = -e.deltaY > 0 ? 1.1 : 1 / 1.1;
             scale *= scaleAmount;
+
+            scale = Math.min(Math.max(scale, 0.5), 2);
+
             applyTransform();
         });
 
-        // ZOOM pakai pinch (HP)
         function getDistance(touches) {
             const [t1, t2] = touches;
             return Math.sqrt(
@@ -110,6 +113,9 @@
                 const scaleAmount = currentDistance / initialPinchDistance;
                 scale *= scaleAmount;
                 initialPinchDistance = currentDistance;
+
+                scale = Math.min(Math.max(scale, 0.5), 2);
+
                 applyTransform();
             }
         });
