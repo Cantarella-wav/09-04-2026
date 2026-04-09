@@ -67,7 +67,7 @@
             }
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 768px) {
             #image-container {
                 justify-content: flex-start;
                 align-items: flex-start;
@@ -76,7 +76,6 @@
             #previewImage {
                 width: 100%;
                 height: auto;
-                object-fit: contain;
             }
         }
     </style>
@@ -91,7 +90,7 @@
         const container = document.getElementById('image-container');
         const image = document.getElementById('previewImage');
 
-        let scale = 0.7;
+        let scale = window.innerWidth <= 768 ? 1 : 0.7;
         let translateX = 0;
         let translateY = 0;
 
@@ -110,8 +109,6 @@
 
         function limitTranslate() {
             const containerRect = container.getBoundingClientRect();
-            const imageRect = image.getBoundingClientRect();
-
             const scaledWidth = image.naturalWidth * scale;
             const scaledHeight = image.naturalHeight * scale;
 
@@ -137,7 +134,7 @@
         });
 
         window.addEventListener('afterprint', () => {
-            scale = 0.7;
+            scale = window.innerWidth <= 768 ? 1 : 0.7;
             applyTransform();
         });
 
